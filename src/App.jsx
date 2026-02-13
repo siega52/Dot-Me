@@ -1,23 +1,18 @@
-// App.jsx - обновленная версия
 import React, { useState, useRef } from 'react';
 import './App.css';
-
-// Импортируй свои иконки
 import { 
-  FaGithub, FaTelegram, FaYoutube, FaPlay, FaPause, FaSpotify,
+  FaGithub, FaTelegram, FaInstagram, FaPlay, FaPause,
   FaHtml5, FaCss3Alt, FaJs, FaReact, FaSass, FaBootstrap,
-  FaGitAlt, FaChrome, FaNodeJs
+  FaGitAlt, FaNodeJs
 } from 'react-icons/fa';
 import { 
-  SiTypescript, SiWebpack, SiTailwindcss, SiJest, 
-  SiAxios, SiJson, SiVitest
+  SiTypescript, SiWebpack, SiTailwindcss, SiJest, SiVitest
 } from 'react-icons/si';
 
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
 
-  // Путь к твоему аудиофайлу
   const audioSrc = '/music/my-track.mp3';
 
   const togglePlay = () => {
@@ -29,7 +24,6 @@ function App() {
     setIsPlaying(!isPlaying);
   };
 
-  // Категории технологий для лучшей организации
   const techCategories = [
     {
       title: "Core",
@@ -80,8 +74,8 @@ function App() {
         {/* Аватарка */}
         <div className="avatar-container">
           <img 
-            src="/avatar.jpg"
-            alt="siega52 avatar" 
+            src="/src/assets/img.png"
+            alt="siega52" 
             className="avatar"
           />
         </div>
@@ -123,17 +117,14 @@ function App() {
 
         {/* Социальные сети */}
         <div className="social-links">
-          <a href="https://github.com/yourprofile" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/siega52" target="_blank" rel="noopener noreferrer">
             <FaGithub />
           </a>
-          <a href="https://t.me/yourprofile" target="_blank" rel="noopener noreferrer">
+          <a href="https://t.me/siega52" target="_blank" rel="noopener noreferrer">
             <FaTelegram />
           </a>
-          <a href="https://youtube.com/@yourprofile" target="_blank" rel="noopener noreferrer">
-            <FaYoutube />
-          </a>
-          <a href="https://guns.lol/you" target="_blank" rel="noopener noreferrer">
-            <FaSpotify />
+          <a href="https://instagram.com/siega52" target="_blank" rel="noopener noreferrer">
+            <FaInstagram />
           </a>
         </div>
 
@@ -144,14 +135,6 @@ function App() {
             {isPlaying ? <FaPause /> : <FaPlay />}
             <span>{isPlaying ? 'Пауза' : 'Слушать мой трек'}</span>
           </button>
-        </div>
-
-        {/* Доп. информация */}
-        <div className="footer-info">
-          <span>home 0:04</span>
-          <a href="https://guns.lol/you" target="_blank" rel="noopener noreferrer">
-            guns.lol/you
-          </a>
         </div>
       </div>
     </div>
