@@ -32,15 +32,3 @@ body {
   align-items: center;
   justify-content: center;
 }
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-button {
-  border: none;
-  background: none;
-  font-family: inherit;
-  cursor: pointer;
-}
