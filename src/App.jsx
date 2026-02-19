@@ -1,10 +1,14 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
 import bgVideo from './assets/video.mp4';
+import video from './assets/video.mp4';
+import video2 from './assets/video2.mp4';
+import video3 from './assets/video3.mp4';
+
 import { 
   FaGithub, FaTelegram, FaInstagram, FaPlay, FaPause,
   FaHtml5, FaCss3Alt, FaJs, FaReact, FaSass, FaBootstrap,
-  FaGitAlt, FaNodeJs
+  FaGitAlt, FaNodeJs, FaChevronLeft, FaChevronRight
 } from 'react-icons/fa';
 import { 
   SiTypescript, SiWebpack, SiTailwindcss, SiJest, SiVitest
@@ -12,15 +16,44 @@ import {
 
 function App() {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const audioRef = useRef(null);
   const videoRef = useRef(null);
   const audioSrc = '/src/music/music.mp3';
+  const videos = [video, video2, video3];
+
+  const nextVideo = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    
+    const newIndex = (currentVideoIndex + 1) % videos.length;
+    setCurrentVideoIndex(newIndex);
+    
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 1000);
+  };
+
+  const prevVideo = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    
+    const newIndex = (currentVideoIndex - 1 + videos.length) % videos.length;
+    setCurrentVideoIndex(newIndex);
+    
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 1000);
+  };
 
   const togglePlay = () => {
     if (isPlaying) {
       audioRef.current.pause();
+      videoRef.current.pause();
     } else {
       audioRef.current.play();
+      videoRef.current.play();
     }
     setIsPlaying(!isPlaying);
   };
@@ -63,24 +96,51 @@ function App() {
 
   return (
     <div className="app">
-      <video 
-        ref={videoRef}
-        autoPlay 
-        loop 
-        muted 
-        playsInline
-        className="background-video"
-      >
-        <source src={bgVideo} type="video/mp4" />
-        {/* Если видео не загрузится, покажем градиентный фон */}
-        <div className="animated-bg">
-          <div className="gradient-orbe"></div>
-          <div className="gradient-orbe"></div>
-          <div className="gradient-orbe"></div>
-        </div>
-      </video>
+      <div className={`video-wrapper ${isTransitioning ? 'fade-transition' : ''}`}>
+        <video 
+          ref={videoRef}
+          key={currentVideoIndex}
+          autoPlay
+          loop 
+          muted 
+          playsInline
+          className="background-video"
+        >
+          <source src={videos[currentVideoIndex]} type="video/mp4" />
+          {/* Если видео не загрузится, покажем градиентный фон */}
+          <div className="animated-bg">
+            <div className="gradient-orbe"></div>
+            <div className="gradient-orbe"></div>
+            <div className="gradient-orbe"></div>
+          </div>
+        </video>
+      </div>
 
       <div className="video-overlay"></div>
+
+      <button onClick={prevVideo} className="video-nav-button video-nav-prev" disabled={isTransitioning}>
+        <FaChevronLeft />
+      </button>
+      
+      <button onClick={nextVideo} className="video-nav-button video-nav-next" disabled={isTransitioning}>
+        <FaChevronRight />
+      </button>
+
+      <div className="video-indicator">
+        {videos.map((_, index) => (
+          <span 
+            key={index} 
+            className={`video-dot ${index === currentVideoIndex ? 'active' : ''}`}
+            onClick={() => {
+              if (!isTransitioning && index !== currentVideoIndex) {
+                setIsTransitioning(true);
+                setCurrentVideoIndex(index);
+                setTimeout(() => setIsTransitioning(false), 1000);
+              }
+            }}
+          />
+        ))}
+      </div>
 
       <div className="glass-card">
         <div className="avatar-container">
