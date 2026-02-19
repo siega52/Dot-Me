@@ -1,6 +1,5 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import './App.css';
-import bgVideo from './assets/video.mp4';
 import video from './assets/video.mp4';
 import video2 from './assets/video2.mp4';
 import video3 from './assets/video3.mp4';
