@@ -1,17 +1,18 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import './App.css';
 import video from './assets/video.mp4';
 import video2 from './assets/video2.mp4';
 import video3 from './assets/video3.mp4';
 
-import track1 from './assets/music/music.mp3';
-import track2 from './assets/music/music2.mp3';
-import track3 from './assets/music/music3.mp3';
+import track1 from './music/music.mp3';
+import track2 from './music/music2.mp3';
+import track3 from './music/music3.mp3';
 
 import { 
   FaGithub, FaTelegram, FaInstagram, FaPlay, FaPause,
   FaHtml5, FaCss3Alt, FaJs, FaReact, FaSass, FaBootstrap,
-  FaGitAlt, FaNodeJs, FaChevronLeft, FaChevronRight
+  FaGitAlt, FaNodeJs, FaChevronLeft, FaChevronRight,
+  FaStepForward, FaStepBackward, FaVolumeUp, FaVolumeDown, FaVolumeMute
 } from 'react-icons/fa';
 import { 
   SiTypescript, SiWebpack, SiTailwindcss, SiJest, SiVitest
@@ -32,13 +33,12 @@ function App() {
 
   const audioRef = useRef(null);
   const videoRef = useRef(null);
-  const progressRef = useRef(null);
 
   const videos = [video, video2, video3];
   const tracks = [
-    { src: track1, title: "Track 1", artist: "Artist 1" },
-    { src: track2, title: "Track 2", artist: "Artist 2" },
-    { src: track3, title: "Track 3", artist: "Artist 3" }
+    { src: track1, title: "home", artist: ".diedlonely, Jay Karin" },
+    { src: track2, title: "FOCUS", artist: "quietshadow" },
+    { src: track3, title: "Take a Deep Bright", artist: "Kubsxyz" }
   ];
 
   const nextVideo = () => {
@@ -128,13 +128,44 @@ function App() {
     setIsSeeking(false);
   };
 
-  // Форматирование времени
   const formatTime = (time) => {
     if (isNaN(time)) return "0:00";
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    
+    const updateTime = () => {
+      if (!isSeeking) {
+        setCurrentTime(audio.currentTime);
+      }
+    };
+    
+    const updateDuration = () => {
+      setDuration(audio.duration);
+    };
+    
+    const handleTrackEnd = () => {
+      nextTrack();
+    };
+    
+    audio.addEventListener('timeupdate', updateTime);
+    audio.addEventListener('loadedmetadata', updateDuration);
+    audio.addEventListener('ended', handleTrackEnd);
+    
+    return () => {
+      audio.removeEventListener('timeupdate', updateTime);
+      audio.removeEventListener('loadedmetadata', updateDuration);
+      audio.removeEventListener('ended', handleTrackEnd);
+    };
+  }, [currentTrackIndex, isSeeking]);
+
+  useEffect(() => {
+    audioRef.current.volume = volume;
+  }, []);
 
   const techCategories = [
     {
@@ -274,13 +305,72 @@ function App() {
           </a>
         </div>
 
-        <div className="music-player">
+        <div className="advanced-player">
+          <audio 
+            ref={audioRef} 
+            src={tracks[currentTrackIndex].src}
+            preload="metadata"
+          />
+          
+          <div className="track-info">
+            <div className="track-title">{tracks[currentTrackIndex].title}</div>
+            <div className="track-artist">{tracks[currentTrackIndex].artist}</div>
+          </div>
+
+          <div className="progress-container">
+            <span className="time-current">{formatTime(currentTime)}</span>
+            <input
+              type="range"
+              className="progress-bar"
+              min="0"
+              max={duration || 0}
+              value={currentTime}
+              onChange={handleSeek}
+              onMouseDown={handleSeekStart}
+              onMouseUp={handleSeekEnd}
+              onTouchStart={handleSeekStart}
+              onTouchEnd={handleSeekEnd}
+            />
+            <span className="time-total">{formatTime(duration)}</span>
+          </div>
+
+          <div className="player-controls">
+            <button onClick={prevTrack} className="control-button">
+              <FaStepBackward />
+            </button>
+            
+            <button onClick={togglePlay} className="play-pause-button">
+              {isPlaying ? <FaPause /> : <FaPlay />}
+            </button>
+            
+            <button onClick={nextTrack} className="control-button">
+              <FaStepForward />
+            </button>
+          </div>
+
+          <div className="volume-control">
+            <button onClick={toggleMute} className="volume-button">
+              {isMuted || volume === 0 ? <FaVolumeMute /> : volume < 0.5 ? <FaVolumeDown /> : <FaVolumeUp />}
+            </button>
+            <input
+              type="range"
+              className="volume-slider"
+              min="0"
+              max="1"
+              step="0.01"
+              value={volume}
+              onChange={handleVolumeChange}
+            />
+          </div>
+        </div>
+
+        {/* <div className="music-player">
           <audio ref={audioRef} src={audioSrc} loop />
           <button onClick={togglePlay} className="play-button">
             {isPlaying ? <FaPause /> : <FaPlay />}
             <span>{isPlaying ? 'Пауза' : 'Слушать трек'}</span>
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
