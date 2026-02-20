@@ -363,14 +363,6 @@ function App() {
             />
           </div>
         </div>
-
-        {/* <div className="music-player">
-          <audio ref={audioRef} src={audioSrc} loop />
-          <button onClick={togglePlay} className="play-button">
-            {isPlaying ? <FaPause /> : <FaPlay />}
-            <span>{isPlaying ? 'Пауза' : 'Слушать трек'}</span>
-          </button>
-        </div> */}
       </div>
     </div>
   );
