@@ -8,6 +8,8 @@ import track1 from './music/music.mp3';
 import track2 from './music/music2.mp3';
 import track3 from './music/music3.mp3';
 
+import avatar from "./assets/img.png";
+
 import { 
   FaGithub, FaTelegram, FaInstagram, FaPlay, FaPause,
   FaHtml5, FaCss3Alt, FaJs, FaReact, FaSass, FaBootstrap,
@@ -252,7 +254,7 @@ function App() {
       <div className="glass-card">
         <div className="avatar-container">
           <img 
-            src="/src/assets/img.png"
+            src={avatar}
             alt="siega52" 
             className="avatar"
           />

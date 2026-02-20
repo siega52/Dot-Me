@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/siega52/Dot-Me",
+  "homepage": "https://siega52.github.io/Dot-Me",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
