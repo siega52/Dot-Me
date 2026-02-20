@@ -4,6 +4,10 @@ import video from './assets/video.mp4';
 import video2 from './assets/video2.mp4';
 import video3 from './assets/video3.mp4';
 
+import track1 from './assets/music/music.mp3';
+import track2 from './assets/music/music2.mp3';
+import track3 from './assets/music/music3.mp3';
+
 import { 
   FaGithub, FaTelegram, FaInstagram, FaPlay, FaPause,
   FaHtml5, FaCss3Alt, FaJs, FaReact, FaSass, FaBootstrap,
@@ -17,10 +21,25 @@ function App() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [volume, setVolume] = useState(0.7);
+  const [previousVolume, setPreviousVolume] = useState(0.7);
+  const [isMuted, setIsMuted] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [isSeeking, setIsSeeking] = useState(false);
+
   const audioRef = useRef(null);
   const videoRef = useRef(null);
-  const audioSrc = '/src/music/music.mp3';
+  const progressRef = useRef(null);
+
   const videos = [video, video2, video3];
+  const tracks = [
+    { src: track1, title: "Track 1", artist: "Artist 1" },
+    { src: track2, title: "Track 2", artist: "Artist 2" },
+    { src: track3, title: "Track 3", artist: "Artist 3" }
+  ];
 
   const nextVideo = () => {
     if (isTransitioning) return;
@@ -46,6 +65,24 @@ function App() {
     }, 1000);
   };
 
+  const nextTrack = () => {
+    const newIndex = (currentTrackIndex + 1) % tracks.length;
+    setCurrentTrackIndex(newIndex);
+    setCurrentTime(0);
+    if (isPlaying) {
+      setTimeout(() => audioRef.current.play(), 100);
+    }
+  };
+
+  const prevTrack = () => {
+    const newIndex = (currentTrackIndex - 1 + tracks.length) % tracks.length;
+    setCurrentTrackIndex(newIndex);
+    setCurrentTime(0);
+    if (isPlaying) {
+      setTimeout(() => audioRef.current.play(), 100);
+    }
+  };
+
   const togglePlay = () => {
     if (isPlaying) {
       audioRef.current.pause();
@@ -55,6 +92,48 @@ function App() {
       videoRef.current.play();
     }
     setIsPlaying(!isPlaying);
+  };
+
+  const handleVolumeChange = (e) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+    audioRef.current.volume = newVolume;
+    setIsMuted(newVolume === 0);
+  };
+
+  const toggleMute = () => {
+    if (isMuted) {
+      audioRef.current.volume = previousVolume;
+      setVolume(previousVolume);
+      setIsMuted(false);
+    } else {
+      setPreviousVolume(volume);
+      audioRef.current.volume = 0;
+      setVolume(0);
+      setIsMuted(true);
+    }
+  };
+
+  const handleSeek = (e) => {
+    const seekTime = parseFloat(e.target.value);
+    setCurrentTime(seekTime);
+    audioRef.current.currentTime = seekTime;
+  };
+
+  const handleSeekStart = () => {
+    setIsSeeking(true);
+  };
+
+  const handleSeekEnd = () => {
+    setIsSeeking(false);
+  };
+
+  // Форматирование времени
+  const formatTime = (time) => {
+    if (isNaN(time)) return "0:00";
+    const minutes = Math.floor(time / 60);
+    const seconds = Math.floor(time % 60);
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
   };
 
   const techCategories = [
