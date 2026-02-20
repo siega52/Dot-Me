@@ -86,10 +86,8 @@ function App() {
   const togglePlay = () => {
     if (isPlaying) {
       audioRef.current.pause();
-      videoRef.current.pause();
     } else {
       audioRef.current.play();
-      videoRef.current.play();
     }
     setIsPlaying(!isPlaying);
   };
