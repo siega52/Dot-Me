@@ -1,4 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
+
+import Counter from './Counter';
 import './App.css';
 import video from './assets/video.mp4';
 import video2 from './assets/video2.mp4';
@@ -363,6 +365,7 @@ function App() {
             />
           </div>
         </div>
+        <Counter/>
       </div>
     </div>
   );
