@@ -545,7 +545,6 @@
   }
 }
 
-/* ADVANCED PLAYER STYLES */
 .advanced-player {
   background: rgba(0, 0, 0, 0.3);
   border-radius: 16px;
@@ -554,7 +553,6 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Информация о треке */
 .track-info {
   text-align: center;
   margin-bottom: 1rem;
@@ -572,7 +570,6 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* Прогресс-бар */
 .progress-container {
   display: flex;
   align-items: center;
@@ -627,7 +624,6 @@
   transform: scale(1.2);
 }
 
-/* Кнопки управления */
 .player-controls {
   display: flex;
   justify-content: center;
@@ -678,7 +674,6 @@
   border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Регулятор громкости */
 .volume-control {
   display: flex;
   align-items: center;
@@ -733,7 +728,6 @@
   cursor: pointer;
 }
 
-/* Адаптивность для плеера */
 @media (max-width: 480px) {
   .advanced-player {
     padding: 1rem;
@@ -766,6 +760,10 @@
   .progress-container {
     gap: 0.5rem;
   }
+  
+  .volume-control {
+    display: none;
+  }
 }
 
 @media (max-width: 360px) {
@@ -785,5 +783,8 @@
     width: 35px;
     height: 35px;
     font-size: 1.2rem;
+  }
+  .volume-control {
+    display: none;
   }
 }
