@@ -7,7 +7,6 @@
   <img src="https://img.shields.io/badge/Анимации-CSS-red" alt="Animations"> 
   <img src="https://img.shields.io/badge/Адаптивный-UI-purple" alt="Adaptive UI"> 
   <img src="https://img.shields.io/badge/GitHub%20Pages-деплой-success" alt="GitHub Pages"> 
-  <img src="https://img.shields.io/badge/Счетчик-CountAPI-yellow" alt="Counter"> 
 </p>
 
 **Dot Me** — современный персональный сайт-визитка Frontend-разработчика. Проект выполнен на React + Vite с анимированным фоном и музыкальным плеером.
